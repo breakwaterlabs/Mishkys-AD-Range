@@ -18,9 +18,7 @@ try {
     }
 }
 
-
-New-Item $VMStuff\Lab -ItemType Directory -force
-New-Item $VMStuff\ISOs -ItemType Directory -force
+@("Lab", "ISOs") | foreach-object {New-Item "$VMStuff\$_" -ItemType Directory -force | out-null}
 Set-Location $VMStuff\ISOs
 
 # avoid re-downloading unnecessarily asscript may need to be re-run elevated and we don't want to trigger an overwrite / re-download of 5GB for no reason

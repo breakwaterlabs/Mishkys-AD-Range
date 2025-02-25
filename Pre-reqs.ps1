@@ -38,8 +38,5 @@ if (-not (test-path $isoSavePath)) {
 }
 
 Write-Host "Grab a x64 ISO from https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022 and save it in the ISOs folder."
-
-Install-Module -Name Convert-WindowsImage
-
 Write-Host "If the above fails to install Convert-WindowsImage then download it from https://github.com/x0nn/Convert-WindowsImage"
 Write-Host "Save it in $VMStuff\Convert-WindowsImage (from PS Gallery)"

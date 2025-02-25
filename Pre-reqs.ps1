@@ -1,6 +1,7 @@
 ﻿$ErrorActionPreference = Stop
 $VMStuff="C:\VM_Stuff_Share"
 $IsoSavePath = "$VMStuff\ISOs\Windows Server 2022 (20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us).iso"
+$VMSwitchName = "Testing"
 
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 Install-PackageProvider Nuget –force –verbose
@@ -14,8 +15,19 @@ foreach ($module in $RequiredModules) {
     Install-Module –Name $module –Force –Verbose
 }
 
+try {
+    set-vmswitch $VMSwitchName -AllowManagementOS $true -verbose
+} catch [Microsoft.HyperV.PowerShell.VirtualizationException] {
+    if ($_.Exception.message -like "Hyper-V was unable to find a virtual switch with name *")  {
+        $Adapter = (get-netadapter | where-object {$_.virtual -eq $false -and $_.MediaConnectionState -eq "Connected" -and $_.AdminStatus -eq "Up" -and $_.status -eq "Up"})[0]
+        new-vmswitch -name $VMSwitchName -NetAdapterName $Adapter.name -AllowManagementOS $true -verbose
+        write-host "Created new VMSwitch '$VMSwitchName' on adapter '$($adapter.name)'"
+    } else {
+        throw $_
+    }
+}
 
-New-VMSwitch -Name "Testing" -NetAdapterName "Ethernet" ; Set-VMSwitch -Name Testing -AllowManagementOS $true
+
 New-Item $VMStuff\Lab -ItemType Directory
 New-Item $VMStuff\ISOs -ItemType Directory
 Set-Location $VMStuff\ISOs

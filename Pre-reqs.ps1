@@ -23,9 +23,12 @@ Set-Location $VMStuff\ISOs
 
 # avoid re-downloading unnecessarily asscript may need to be re-run elevated and we don't want to trigger an overwrite / re-download of 5GB for no reason
 if (-not (test-path $isoSavePath)) {
-    Invoke-WebRequest -Uri "https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso" -OutFile $IsoSavePath
+    write-host "ISO previously downloaded; If you have issues please delete it and re-run to re-download the file."
+} else {
+    try {
+        Invoke-WebRequest -Uri "https://1software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso" -OutFile $IsoSavePath
+    } catch {
+        Write-Host "ISO download failed, please downlod a x64 ISO from https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022 and save it in the ISOs folder.`r`n($ISOSavePath)"
+    }
 }
-
-Write-Host "Grab a x64 ISO from https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022 and save it in the ISOs folder."
-Write-Host "If the above fails to install Convert-WindowsImage then download it from https://github.com/x0nn/Convert-WindowsImage"
-Write-Host "Save it in $VMStuff\Convert-WindowsImage (from PS Gallery)"
+write-host "ISO saved under $ISOSavePath."

@@ -2,6 +2,17 @@
 $IsoSavePath = "$VMStuff\ISOs\Windows Server 2022 (20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us).iso"
 
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+Install-PackageProvider Nuget –force –verbose
+# Install all modules up front before lengthy download
+$RequiredModules = @(
+    "PowerShellGet"
+    "Hyper-V"
+    "Convert-WindowsImage"
+)
+foreach ($module in $RequiredModules) {
+    Install-Module –Name $module –Force –Verbose
+}
+
 
 New-VMSwitch -Name "Testing" -NetAdapterName "Ethernet" ; Set-VMSwitch -Name Testing -AllowManagementOS $true
 New-Item $VMStuff\Lab -ItemType Directory

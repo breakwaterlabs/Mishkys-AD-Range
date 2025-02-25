@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 $VMStuff="C:\VM_Stuff_Share"
 $IsoSavePath = "$VMStuff\ISOs\Windows Server 2022 (20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us).iso"
 $VMSwitchName = "Testing"
@@ -32,3 +32,5 @@ if (-not (test-path $isoSavePath)) {
     }
 }
 write-host "ISO saved under $ISOSavePath."
+
+invoke-webrequest -uri "https://raw.githubusercontent.com/x0nn/Convert-WindowsImage/refs/heads/main/Convert-WindowsImage.ps1" -outfile "$VMStuff\Lab\Convert-WindowsImage.ps1" -verbose

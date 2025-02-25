@@ -1,4 +1,5 @@
-﻿$VMStuff="C:\VM_Stuff_Share"
+﻿$ErrorActionPreference = Stop
+$VMStuff="C:\VM_Stuff_Share"
 $IsoSavePath = "$VMStuff\ISOs\Windows Server 2022 (20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us).iso"
 
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All

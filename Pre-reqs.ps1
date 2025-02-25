@@ -28,8 +28,8 @@ try {
 }
 
 
-New-Item $VMStuff\Lab -ItemType Directory
-New-Item $VMStuff\ISOs -ItemType Directory
+New-Item $VMStuff\Lab -ItemType Directory -force
+New-Item $VMStuff\ISOs -ItemType Directory -force
 Set-Location $VMStuff\ISOs
 
 # avoid re-downloading unnecessarily asscript may need to be re-run elevated and we don't want to trigger an overwrite / re-download of 5GB for no reason
